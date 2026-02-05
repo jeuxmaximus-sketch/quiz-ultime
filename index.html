@@ -35,15 +35,23 @@ body{
   font-size:.75em;
   opacity:.7;
 }
-.mentions-legales{
+.legal-links{
   position:absolute;
   bottom:10px;
   left:15px;
   font-size:.75em;
   opacity:.7;
-  color:white;
-  font-family:impact;
 }
+
+.legal-links a{
+  color:white;
+  text-decoration:none;
+}
+
+.legal-links a:hover{
+  text-decoration:underline;
+}
+
 h1,h2{text-align:center}
 button,input,select{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:none}
 button{background:#7b2ff7;color:white;cursor:pointer}
@@ -106,11 +114,14 @@ button:hover{opacity:.9}
     <input type="color" id="color2" value="#ffffff" onchange="updatePreview()">
     <div id="preview" style="height:50px;border-radius:8px;margin-top:10px;border:2px solid #fff;"></div>
     <button onclick="applyCustomGradient()">Appliquer dégradé</button>
-  </div>
+  <div class="signature">© 2026 – Warnotte Maxime</div>
 
-  <div class="signature">par Warnotte Maxime</div>
-  <a class="mentions-legales" href="mentions-legales.html">Mentions légales</a>
+<div class="legal-links">
+  <a href="mentions-legales.html">Mentions légales</a> |
+  <a href="politique-cookies.html">Politique de cookies</a> |
+  <a href="politique-confidentialite.html">Politique de confidentialité</a>
 </div>
+
 
 <!-- CRÉATEUR -->
 <div id="creator" class="hidden">
@@ -436,6 +447,7 @@ if(savedTheme){
 </script>
 </body>
 </html>
+
 
 
 
