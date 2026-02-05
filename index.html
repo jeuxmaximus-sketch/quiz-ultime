@@ -51,6 +51,34 @@ body{
 .legal-links a:hover{
   text-decoration:underline;
 }
+.cookie-banner{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#1b0c3f;
+  color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:9999;
+  box-shadow:0 -5px 20px rgba(0,0,0,.4);
+  flex-wrap:wrap;
+}
+
+.cookie-banner a{
+  color:#7b2ff7;
+}
+
+.cookie-buttons button{
+  width:auto;
+  margin-left:10px;
+  padding:8px 15px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
 
 h1,h2{text-align:center}
 button,input,select{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:none}
@@ -77,6 +105,18 @@ button:hover{opacity:.9}
 #qrcode,#scanner{display:flex;justify-content:center;margin-top:10px;}
 </style>
 </head>
+  <div id="cookie-banner" class="cookie-banner hidden">
+  <p>
+    🍪 Ce site utilise des cookies pour améliorer l’expérience utilisateur et afficher des publicités.
+    <a href="politique-cookies.html">En savoir plus</a>
+  </p>
+
+  <div class="cookie-buttons">
+    <button onclick="acceptCookies()">Accepter</button>
+    <button onclick="refuseCookies()">Refuser</button>
+  </div>
+</div>
+
 <body>
 <div class="container">
 
@@ -444,9 +484,74 @@ if(savedTheme){
 }
 
 });
+function acceptCookies(){
+  localStorage.setItem("cookieConsent","accepted");
+  document.getElementById("cookie-banner").classList.add("hidden");
+}
+
+function refuseCookies(){
+  localStorage.setItem("cookieConsent","refused");
+  document.getElementById("cookie-banner").classList.add("hidden");
+}
+
+window.addEventListener("load",()=>{
+  const consent = localStorage.getItem("cookieConsent");
+  if(!consent){
+    document.getElementById("cookie-banner").classList.remove("hidden");
+  }
+});
+/* === GESTION COOKIES & ADSENSE === */
+
+function loadAdSense(){
+  if(document.getElementById("adsense-script")) return;
+
+  const s = document.createElement("script");
+  s.id = "adsense-script";
+  s.async = true;
+  s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXX";
+  s.crossOrigin = "anonymous";
+  document.head.appendChild(s);
+}
+
+function acceptCookies(){
+  localStorage.setItem("cookieConsent","accepted");
+  document.getElementById("cookie-banner").classList.add("hidden");
+  loadAdSense();
+}
+
+function refuseCookies(){
+  localStorage.setItem("cookieConsent","refused");
+  document.getElementById("cookie-banner").classList.add("hidden");
+}
+
+window.addEventListener("load",()=>{
+  const consent = localStorage.getItem("cookieConsent");
+
+  if(consent === "accepted"){
+    loadAdSense();
+  } else if(!consent){
+    document.getElementById("cookie-banner").classList.remove("hidden");
+  }
+});
+
 </script>
 </body>
+<footer>
+  <!-- PUB FOOTER -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-XXXXXXXX"
+     data-ad-slot="YYYYYYYY"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</footer>
 </html>
+
 
 
 
