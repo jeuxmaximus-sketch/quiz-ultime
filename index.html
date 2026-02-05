@@ -16,12 +16,10 @@ body{
   color:white;
   min-height:100vh;
   display:flex;
-  justify-content:center;
+  flex-direction:column;
   align-items:center;
-  padding-bottom:120px;
-  
+  padding-bottom:160px; /* espace pour bannière cookies */
 }
-
 .container{
   background:var(--card);
   padding:25px;
@@ -31,58 +29,6 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.4);
   position:relative;
 }
-.signature{
-  position:absolute;
-  bottom:10px;
-  right:15px;
-  font-size:.75em;
-  opacity:.7;
-}
-.legal-links{
-  margin-top:20px;
-  font-size:.75em;
-  opacity:.7;
-  text-align:center;
-}
-
-
-.legal-links a{
-  color:white;
-  text-decoration:none;
-}
-
-.legal-links a:hover{
-  text-decoration:underline;
-}
-.cookie-banner{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#1b0c3f;
-  color:white;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:9999;
-  box-shadow:0 -5px 20px rgba(0,0,0,.4);
-  flex-wrap:wrap;
-}
-
-.cookie-banner a{
-  color:#7b2ff7;
-}
-
-.cookie-buttons button{
-  width:auto;
-  margin-left:10px;
-  padding:8px 15px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-
 h1,h2{text-align:center}
 button,input,select{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:none}
 button{background:#7b2ff7;color:white;cursor:pointer}
@@ -106,120 +52,154 @@ button:hover{opacity:.9}
 .q-item span{flex:1;font-size:.9em}
 .q-item button{width:auto}
 #qrcode,#scanner{display:flex;justify-content:center;margin-top:10px;}
+.signature{text-align:center;font-size:.75em;opacity:.7;margin-top:10px;}
+.legal-links{text-align:center;font-size:.75em;opacity:.8;margin-top:5px;}
+.legal-links a{color:white;text-decoration:none;}
+.legal-links a:hover{text-decoration:underline;}
+.cookie-banner{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#1b0c3f;
+  color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  z-index:9999;
+  box-shadow:0 -5px 20px rgba(0,0,0,.4);
+}
+.cookie-banner a{color:#7b2ff7;}
+.cookie-buttons button{
+  width:auto;
+  margin-left:10px;
+  padding:8px 15px;
+  border-radius:6px;
+  cursor:pointer;
+}
 </style>
 </head>
-  <div id="cookie-banner" class="cookie-banner hidden">
+<body>
+
+<!-- Bannière cookies -->
+<div id="cookie-banner" class="cookie-banner hidden">
   <p>
     🍪 Ce site utilise des cookies pour améliorer l’expérience utilisateur et afficher des publicités.
     <a href="politique-cookies.html">En savoir plus</a>
   </p>
-
   <div class="cookie-buttons">
     <button onclick="acceptCookies()">Accepter</button>
     <button onclick="refuseCookies()">Refuser</button>
   </div>
 </div>
 
-<body>
 <div class="container">
 
-<!-- MENU ACCUEIL -->
-<div id="home">
-  <h1>🎯 Générateur de Quiz Ultime</h1>
-  <button onclick="showCreator()">🧠 Créer / Modifier un quiz</button>
-  <button onclick="startQuiz()">▶️ Lancer le quiz</button>
+  <!-- MENU ACCUEIL -->
+  <div id="home">
+    <h1>🎯 Générateur de Quiz Ultime</h1>
+    <button onclick="showCreator()">🧠 Créer / Modifier un quiz</button>
+    <button onclick="startQuiz()">▶️ Lancer le quiz</button>
 
-  <h3>Exporter :</h3>
-  <button onclick="generateQRCode()">📱 QR Code mobile</button>
-  <button onclick="exportFile()">💾 Fichier JSON</button>
-  <div id="qrcode"></div>
+    <h3>Exporter :</h3>
+    <button onclick="generateQRCode()">📱 QR Code mobile</button>
+    <button onclick="exportFile()">💾 Fichier JSON</button>
+    <div id="qrcode"></div>
 
-  <h3>Importer :</h3>
-  <input type="file" onchange="importFile(event)">
-  <button onclick="startScanner()">📷 Scanner QR (mobile)</button>
-  <div id="scanner" class="hidden"></div>
+    <h3>Importer :</h3>
+    <input type="file" onchange="importFile(event)">
+    <button onclick="startScanner()">📷 Scanner QR (mobile)</button>
+    <div id="scanner" class="hidden"></div>
 
-  <h3>Changer le thème :</h3>
-  <select id="themeMenu" onchange="applyTheme()">
-    <option value="violet">Violet</option>
-    <option value="bleu">BleuFoncé</option>
-    <option value="vert">Vert</option>
-    <option value="rouge">Rouge</option>
-    <option value="rose">Rose</option>
-    <option value="orange">Orange</option>
-    <option value="sombre">Sombre</option>
-    <option value="custom">Personnalisé</option>
-  </select>
+    <h3>Changer le thème :</h3>
+    <select id="themeMenu" onchange="applyTheme()">
+      <option value="violet">Violet</option>
+      <option value="bleu">BleuFoncé</option>
+      <option value="vert">Vert</option>
+      <option value="rouge">Rouge</option>
+      <option value="rose">Rose</option>
+      <option value="orange">Orange</option>
+      <option value="sombre">Sombre</option>
+      <option value="custom">Personnalisé</option>
+    </select>
 
-  <div id="customizer" class="hidden">
-    <p>Choisissez vos couleurs :</p>
-    <input type="color" id="color1" value="#000000" onchange="updatePreview()">
-    <input type="color" id="color2" value="#ffffff" onchange="updatePreview()">
-    <div id="preview" style="height:50px;border-radius:8px;margin-top:10px;border:2px solid #fff;"></div>
-    <button onclick="applyCustomGradient()">Appliquer dégradé</button>
+    <div id="customizer" class="hidden">
+      <p>Choisissez vos couleurs :</p>
+      <input type="color" id="color1" value="#000000" onchange="updatePreview()">
+      <input type="color" id="color2" value="#ffffff" onchange="updatePreview()">
+      <div id="preview" style="height:50px;border-radius:8px;margin-top:10px;border:2px solid #fff;"></div>
+      <button onclick="applyCustomGradient()">Appliquer dégradé</button>
+    </div>
+  </div>
+
+  <!-- CRÉATEUR -->
+  <div id="creator" class="hidden">
+    <h2>Création du quiz</h2>
+    <input id="q" placeholder="Question">
+    <label>Nombre de réponses : </label>
+    <select id="numAnswers" onchange="updateAnswerFields()">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4" selected>4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+    <div id="answersContainer">
+      <input id="a0" placeholder="Réponse 1">
+      <input id="a1" placeholder="Réponse 2">
+      <input id="a2" placeholder="Réponse 3">
+      <input id="a3" placeholder="Réponse 4">
+      <input id="a4" placeholder="Réponse 5" class="hidden">
+      <input id="a5" placeholder="Réponse 6" class="hidden">
+    </div>
+    <label>Bonne réponse :</label>
+    <select id="correct"></select>
+    <button onclick="addQuestion()">➕ Ajouter / Modifier</button>
+    <button onclick="backHome()">⬅️ Accueil</button>
+    <div id="qList" class="q-list"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="hidden">
+    <h2 id="question"></h2>
+    <div class="answers">
+      <button class="quiz-btn red" onclick="answer(0)"></button>
+      <button class="quiz-btn blue" onclick="answer(1)"></button>
+      <button class="quiz-btn yellow" onclick="answer(2)"></button>
+      <button class="quiz-btn green" onclick="answer(3)"></button>
+      <button class="quiz-btn orange hidden" onclick="answer(4)"></button>
+      <button class="quiz-btn purple hidden" onclick="answer(5)"></button>
+    </div>
+    <div id="feedback" class="feedback"></div>
+    <div id="scoreEl"></div>
+  </div>
+
+  <div id="stats" class="hidden"></div>
+
+  <!-- FOOTER -->
   <div class="signature">© 2026 – Warnotte Maxime</div>
+  <div class="legal-links">
+    <a href="mentions-legales.html">Mentions légales</a> |
+    <a href="politique-cookies.html">Politique de cookies</a> |
+    <a href="politique-confidentialite.html">Politique de confidentialité</a>
+  </div>
 
-<div class="legal-links">
-  <a href="mentions-legales.html">Mentions légales</a> |
-  <a href="politique-cookies.html">Politique de cookies</a> |
-  <a href="politique-confidentialite.html">Politique de confidentialité</a>
-</div>
+  <!-- PUB FOOTER (optionnelle) -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXX"
+       data-ad-slot="YYYYYYYY"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
 
-
-<!-- CRÉATEUR -->
-<div id="creator" class="hidden">
-<h2>Création du quiz</h2>
-<input id="q" placeholder="Question">
-
-<label>Nombre de réponses : </label>
-<select id="numAnswers" onchange="updateAnswerFields()">
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4" selected>4</option>
-  <option value="5">5</option>
-  <option value="6">6</option>
-</select>
-
-<div id="answersContainer">
-  <input id="a0" placeholder="Réponse 1">
-  <input id="a1" placeholder="Réponse 2">
-  <input id="a2" placeholder="Réponse 3">
-  <input id="a3" placeholder="Réponse 4">
-  <input id="a4" placeholder="Réponse 5" class="hidden">
-  <input id="a5" placeholder="Réponse 6" class="hidden">
-</div>
-
-<label>Bonne réponse :</label>
-<select id="correct"></select>
-
-<button onclick="addQuestion()">➕ Ajouter / Modifier</button>
-<button onclick="backHome()">⬅️ Accueil</button>
-<div id="qList" class="q-list"></div>
-</div>
-
-<!-- QUIZ -->
-<div id="quiz" class="hidden">
-<h2 id="question"></h2>
-<div class="answers">
-  <button class="quiz-btn red" onclick="answer(0)"></button>
-  <button class="quiz-btn blue" onclick="answer(1)"></button>
-  <button class="quiz-btn yellow" onclick="answer(2)"></button>
-  <button class="quiz-btn green" onclick="answer(3)"></button>
-  <button class="quiz-btn orange hidden" onclick="answer(4)"></button>
-  <button class="quiz-btn purple hidden" onclick="answer(5)"></button>
-</div>
-<div id="feedback" class="feedback"></div>
-<div id="scoreEl"></div>
-</div>
-
-<div id="stats" class="hidden"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode"></script>
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
-
+// === VARIABLES & DOM ===
 const home=document.getElementById("home");
 const creator=document.getElementById("creator");
 const quiz=document.getElementById("quiz");
@@ -227,11 +207,10 @@ const statsDiv=document.getElementById("stats");
 const qList=document.getElementById("qList");
 const feedback=document.getElementById("feedback");
 const scoreEl=document.getElementById("scoreEl");
-
 let questions=JSON.parse(localStorage.getItem("quiz"))||[];
 let index=0,score=0,editIndex=null;
 
-/* AUDIO */
+// === AUDIO ===
 const ctx=new (window.AudioContext||window.webkitAudioContext)();
 const beep=(f,d,t)=>{
   const o=ctx.createOscillator(),g=ctx.createGain();
@@ -244,11 +223,11 @@ const beep=(f,d,t)=>{
 const ding=()=>beep(1200,.4,"sine");
 const dong=()=>beep(250,.6,"square");
 
-/* NAVIGATION */
+// === NAVIGATION ===
 window.showCreator=()=>{home.classList.add("hidden");creator.classList.remove("hidden");}
 window.backHome=()=>{creator.classList.add("hidden");home.classList.remove("hidden");}
 
-/* GESTION NOMBRE DE RÉPONSES */
+// === GESTION RÉPONSES ===
 window.updateAnswerFields=()=>{
   const num=+document.getElementById("numAnswers").value;
   for(let i=0;i<6;i++){
@@ -266,7 +245,7 @@ function updateCorrectOptions(){
 }
 updateAnswerFields();
 
-/* QUESTIONS */
+// === QUESTIONS ===
 function renderList(){
   qList.innerHTML="<h3>Questions</h3>";
   questions.forEach((q,i)=>{
@@ -315,7 +294,7 @@ window.delQ=(i)=>{
   if(confirm("Supprimer ?")){questions.splice(i,1);renderList();}
 }
 
-/* QUIZ */
+// === QUIZ ===
 window.startQuiz=()=>{
   if(!questions.length) return alert("Aucune question");
   home.classList.add("hidden");
@@ -373,7 +352,7 @@ function end(){
     <button onclick="location.reload()">🔁 Accueil</button>`;
 }
 
-/* THÈMES */
+// === THÈMES ===
 window.applyTheme=()=>{
   const val=document.getElementById("themeMenu")?.value;
   if(!val) return;
@@ -413,7 +392,7 @@ window.applyCustomGradient=()=>{
   }
 }
 
-/* EXPORT / IMPORT JSON et QR */
+// === EXPORT / IMPORT JSON & QR ===
 window.generateQRCode = () => {
   const qrcodeDiv = document.getElementById("qrcode");
   qrcodeDiv.innerHTML="";
@@ -448,6 +427,7 @@ window.importFile = (e) => {
   reader.readAsText(file);
 }
 
+// === QR CODE SCANNER ===
 let html5QrScanner;
 window.startScanner = () => {
   const scannerDiv = document.getElementById("scanner");
@@ -470,7 +450,7 @@ window.startScanner = () => {
   );
 }
 
-/* CHARGEMENT THÈME */
+// === CHARGEMENT THÈME ===
 const savedTheme=localStorage.getItem("theme");
 if(savedTheme){
   document.getElementById("themeMenu").value=savedTheme;
@@ -486,34 +466,16 @@ if(savedTheme){
   } else applyTheme();
 }
 
-});
-function acceptCookies(){
-  localStorage.setItem("cookieConsent","accepted");
-  document.getElementById("cookie-banner").classList.add("hidden");
-}
-
-function refuseCookies(){
-  localStorage.setItem("cookieConsent","refused");
-  document.getElementById("cookie-banner").classList.add("hidden");
-}
-
-window.addEventListener("load",()=>{
-  const consent = localStorage.getItem("cookieConsent");
-  if(!consent){
-    document.getElementById("cookie-banner").classList.remove("hidden");
-  }
-});
-/* === GESTION COOKIES & ADSENSE === */
-
+// === COOKIES & ADSENSE ===
 function loadAdSense(){
   if(document.getElementById("adsense-script")) return;
-
   const s = document.createElement("script");
   s.id = "adsense-script";
   s.async = true;
   s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXX";
   s.crossOrigin = "anonymous";
   document.head.appendChild(s);
+  (adsbygoogle = window.adsbygoogle || []).push({});
 }
 
 function acceptCookies(){
@@ -529,36 +491,9 @@ function refuseCookies(){
 
 window.addEventListener("load",()=>{
   const consent = localStorage.getItem("cookieConsent");
-
-  if(consent === "accepted"){
-    loadAdSense();
-  } else if(!consent){
-    document.getElementById("cookie-banner").classList.remove("hidden");
-  }
+  if(!consent) document.getElementById("cookie-banner").classList.remove("hidden");
+  else if(consent==="accepted") loadAdSense();
 });
-
 </script>
 </body>
-<footer>
-  <!-- PUB FOOTER -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-XXXXXXXX"
-     data-ad-slot="YYYYYYYY"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-</footer>
 </html>
-
-
-
-
-
-
-
-
